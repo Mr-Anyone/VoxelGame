@@ -18,13 +18,50 @@ int main()
     GLFWwindow* window {opengl_init()};
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     
-    float vertices[] = 
-    {
-        -0.5f, 0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f
+    float vertices[] = {
+        -0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+
+        -0.5f, -0.5f,  0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+
+        -0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+
+        -0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f, -0.5f
     };
-    
+
     unsigned int VAO, VBO; 
     glGenVertexArrays(1, &VAO); 
     glGenBuffers(1, &VBO);
@@ -36,7 +73,7 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*) 0); 
     glEnableVertexAttribArray(0); 
 
-    Chunk chunk {makeTestChunk()};
+    Chunk chunk {std::move(makeTestChunk())};
 
     while(!glfwWindowShouldClose(window))
     {
@@ -49,7 +86,7 @@ int main()
         shader.setMat4("view", camera_g.getView());
         shader.setMat4("model", glm::mat4 (1.0f));
         shader.setMat4("projection", projection_g);
-        glDrawArrays(GL_TRIANGLES, 0, 3); 
+        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) /sizeof(float)); 
 
         glfwPollEvents();    
         glfwSwapBuffers(window);

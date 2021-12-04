@@ -86,7 +86,7 @@ void Chunk::render(const Shader& shader) const
     shader.use(); 
 }
 
-Chunk makeTestChunk()
+Chunk&& makeTestChunk()
 {
     // allocating memory for block
     Block*** blocks {new Block** [ChunkSize]}; 

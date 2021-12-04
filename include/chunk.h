@@ -23,11 +23,15 @@ struct Block
 class Chunk
 {
 public:
+    Chunk() = delete;
     ~Chunk();
     Chunk(Block***copiedChunk, int xOffset, int yOffset);
     
     // deleating copy constructor
-    Chunk(const Chunk& chunk) = delete;
+    Chunk(const Chunk&) = delete;
+    Chunk& operator=(Chunk&) = delete;
+
+
     Chunk(Chunk&& chunk);
 
     void render(const Shader& shader) const;
@@ -40,5 +44,5 @@ private:
     std::vector<float> m_vertices {};
 };
 
-Chunk makeTestChunk();
+Chunk&& makeTestChunk();
 #endif
