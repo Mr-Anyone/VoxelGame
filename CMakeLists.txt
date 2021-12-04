@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(glfw3 3.3 REQUIRED)
 
-add_executable(VoxelGame src/main.cpp 3rd-party/glad.c)
+add_executable(VoxelGame 
+    src/main.cpp 
+    src/common.cpp
+    3rd-party/glad.c)
 target_link_libraries(VoxelGame glfw)
 target_include_directories(VoxelGame PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party ${PROJECT_SOURCE_DIR}/include)
