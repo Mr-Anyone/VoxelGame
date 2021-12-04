@@ -46,3 +46,8 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
     
 }
+
+void mouseCallback(int x, int y)
+{
+
+}

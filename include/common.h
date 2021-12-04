@@ -7,6 +7,10 @@
 // the following are a list of common functions
 GLFWwindow* opengl_init();
 void clearBuffer();
-void processInput(GLFWwindow* window);
 
+// Regarding Mouse and Input (Callbacks)
+void processInput(GLFWwindow* window);
+void mouseCallback();
+
+// Vertices for a cube 
 #endif 
