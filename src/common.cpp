@@ -3,9 +3,11 @@
 #include <GLFW/glfw3.h>
 
 #include "common.h"
+#include "camera.h"
 
 extern int width_g;
 extern int height_g;
+extern Camera camera_g;
 
 GLFWwindow* opengl_init()
 {
@@ -30,6 +32,8 @@ GLFWwindow* opengl_init()
     }    
     
     glViewport(0, 0, width_g, height_g);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
+    glfwSetCursorPosCallback(window, mouseCallback);  
     return window;
 }
 
@@ -44,10 +48,37 @@ void processInput(GLFWwindow* window)
 {
     if(glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    constexpr int speed {1}; 
     
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera_g.moveFront(speed);
+    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera_g.moveFront(-speed);
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera_g.moveSide(-speed);
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera_g.moveSide(speed);
 }
 
-void mouseCallback(int x, int y)
+void mouseCallback(GLFWwindow* window, double xPos, double yPos)
 {
+    static double previousX, previousY; 
+    static bool first {true}; 
+    if(first)
+    {
+        previousX = xPos; 
+        previousY = yPos;
+        
+        first = false;
+        return;
+    }
 
+    float sensitivity = 1;
+    float xOffset =  xPos - previousX ;
+    float yOffset =   previousY - yPos; 
+
+    camera_g.rotate(xOffset, yOffset); 
+
+    previousX = xPos; 
+    previousY = yPos;
 }

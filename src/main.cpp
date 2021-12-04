@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream> 
+#include <glm/glm.hpp>
 
 #include "shader.h"
 #include "camera.h"
@@ -9,6 +10,8 @@
 
 extern constexpr int width_g {800};
 extern constexpr int height_g {600};
+glm::mat4 projection_g {glm::perspective(glm::radians(45.0f), static_cast<float> (width_g) / height_g, 0.1f, 100.0f)};
+Camera camera_g {glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0), glm::vec3(0.0f, 1.0f, 0.0f)};
 
 int main() 
 {
@@ -33,6 +36,8 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*) 0); 
     glEnableVertexAttribArray(0); 
 
+    Chunk chunk {makeTestChunk()};
+
     while(!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -41,6 +46,9 @@ int main()
         // drawing the first triangle
         shader.use(); 
         glBindVertexArray(VAO);
+        shader.setMat4("view", camera_g.getView());
+        shader.setMat4("model", glm::mat4 (1.0f));
+        shader.setMat4("projection", projection_g);
         glDrawArrays(GL_TRIANGLES, 0, 3); 
 
         glfwPollEvents();    

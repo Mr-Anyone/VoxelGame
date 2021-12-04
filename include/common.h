@@ -10,7 +10,6 @@ void clearBuffer();
 
 // Regarding Mouse and Input (Callbacks)
 void processInput(GLFWwindow* window);
-void mouseCallback();
+void mouseCallback(GLFWwindow* window, double xPos, double yPos);
 
-// Vertices for a cube 
 #endif 
