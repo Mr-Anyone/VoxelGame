@@ -58,6 +58,21 @@ void processInput(GLFWwindow* window)
         camera_g.moveSide(-speed);
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera_g.moveSide(speed);
+
+    static GLenum renderMode = GL_LINE; 
+    if(glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, renderMode);
+        switch(renderMode)
+        {
+            case GL_LINE: 
+                renderMode = GL_FILL; 
+                break; 
+            case GL_FILL: 
+                renderMode = GL_LINE;
+                break;
+        }
+    }
 }
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos)

@@ -20,7 +20,6 @@ int main()
     
     Chunk chunk;
     makeTestChunk(chunk);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     while(!glfwWindowShouldClose(window))
     {
         processInput(window);
