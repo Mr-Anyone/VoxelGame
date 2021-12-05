@@ -8,3 +8,7 @@ Features List:
 - Physics 
 
 You have to understand that these are not easy things to implement. In fact, OpenGL is not straightforward.
+
+To Do List 
+
+1. Better Buildsystem! Something that will work right out of the box
