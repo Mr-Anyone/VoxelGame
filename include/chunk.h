@@ -37,6 +37,7 @@ public:
 
     void render(Shader& shader) const;
 private:
+    bool hasNeighbourOnFourSide(int x, int y, int z);
     void makeBlockMesh(int x, int y, int z);
     void createMesh();
 

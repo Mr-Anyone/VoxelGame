@@ -89,7 +89,9 @@ void Chunk::createMesh()
         {
             for(int z = 0 ; z<ChunkSize; ++z)
             {
-
+                if(hasNeighbourOnFourSide(x, y, z))
+                    continue;
+                
                 if(!m_blocks[x][y][z].isActive)
                     continue;
                 makeBlockMesh(x, y, z);
@@ -174,4 +176,62 @@ Chunk& Chunk::operator=(Chunk&& chunk)
     VAO = chunk.VAO;
     VBO = chunk.VBO ;
     return *this;
+}
+
+bool Chunk::hasNeighbourOnFourSide(int x, int y, int z)
+{
+    // re-write this code. What is this copying code shit! 
+
+    for(int yy = -1; yy<2; ++yy)
+    {
+        int compareY = y + yy; 
+        // at a edge
+        if(compareY < 0 || compareY >= ChunkSize)
+        {
+            return false;
+        }
+        // check to see if neighbour exists
+        if(!m_blocks[x][compareY][z].isActive)
+        {
+            return false;
+        }
+    }
+    
+    for(int xx = -1; xx<2; ++xx)
+    {
+        int compareX = x + xx; 
+        // at a edge
+        if(compareX < 0 || compareX >= ChunkSize)
+        {
+            return false;
+        }
+        // check to see if neighbour exists
+        else
+        {
+            if(!m_blocks[compareX][y][z].isActive)
+            {
+                return false;
+            }
+        }
+    }
+
+    for(int zz = -1; zz<2; ++zz)
+    {
+        int compareZ = z + zz; 
+        // at a edge
+        if(compareZ < 0 || compareZ >= ChunkSize)
+        {
+            return false;
+        }
+        // check to see if neighbour exists
+        else
+        {
+            if(!m_blocks[x][y][compareZ].isActive)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+
 }
