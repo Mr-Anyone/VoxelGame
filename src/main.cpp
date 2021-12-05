@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream> 
 #include <glm/glm.hpp>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stbi_image.h>
 
 #include "shader.h"
 #include "camera.h"
@@ -22,7 +24,7 @@ int main()
     
     ChunkManager manager;
     manager.setRenderDistance(1);
-    
+
     while(!glfwWindowShouldClose(window))
     {
         processInput(window);

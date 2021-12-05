@@ -72,12 +72,16 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset):
 
 void Chunk::makeBlockMesh(int x, int y, int z)
 {
-    for(int i = 0; i<sizeof(cubeVertices)/ sizeof(float); i += 3)
+    for(int i = 0; i<sizeof(cubeVertices)/ sizeof(float); i += 5)
     {
         // x, y, z position data
         m_vertices.push_back(cubeVertices[i] + x + m_xOffset * ChunkSize);
         m_vertices.push_back(cubeVertices[i + 1] + y);
         m_vertices.push_back(cubeVertices[i + 2] + z + m_zOffset * ChunkSize);
+        // textures informations
+        m_vertices.push_back(cubeVertices[i+ 3]);
+        m_vertices.push_back(cubeVertices[i+ 4]);
+
     }
 }
 
@@ -109,8 +113,12 @@ void Chunk::createMesh()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float), &m_vertices[0], GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*) 0 ); 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) 0 ); 
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) (sizeof(float) * 3)); 
+    glEnableVertexAttribArray(1);
+
     std::cout << "Made OpenGL Object" << std::endl;
     std::cout << "Mesh Size: " << m_vertices.size() << std::endl;
     // glBindVertexArray(0);

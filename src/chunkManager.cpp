@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> 
+#include <stbi_image.h>
 
 #include "chunk.h"
 #include "chunkManager.h"
@@ -19,6 +20,8 @@ ChunkManager::ChunkManager()
             makeNewChunk(coordinate);
         }
     }
+    
+    this->loadTexture();
 }
 
 static bool existInMap(ChunkCoordinate coordinate, const std::map<ChunkCoordinate, Chunk>& map)
@@ -62,4 +65,30 @@ void ChunkManager::makeNewChunk(ChunkCoordinate coordinate)
 void ChunkManager::setRenderDistance(int renderDistance)
 {
     m_renderDistance = renderDistance;
+}
+
+void ChunkManager::loadTexture()
+{
+    glGenTextures(1, &m_texture);
+    glBindTexture(GL_TEXTURE_2D, m_texture); 
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load("./../res/texture/brickwall.jpeg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+
 }

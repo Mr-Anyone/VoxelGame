@@ -14,8 +14,10 @@ class ChunkManager
 { 
     std::map<ChunkCoordinate, Chunk> m_chunks {};
     int m_renderDistance;
+    unsigned int m_texture;
     
     void makeNewChunk(ChunkCoordinate coordinate);
+    void loadTexture();
 public:
     ChunkManager();
     void render(Shader& shader, const glm::vec3& playerPos);

@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "camera.h"
+#include "stbi_image.h"
 
 extern int width_g;
 extern int height_g;
@@ -34,6 +35,11 @@ GLFWwindow* opengl_init()
     glViewport(0, 0, width_g, height_g);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
     glfwSetCursorPosCallback(window, mouseCallback);  
+    
+    stbi_set_flip_vertically_on_load(true);  
+    
+    // Enable Depth Buffer
+    glEnable(GL_DEPTH_TEST);  
     return window;
 }
 
@@ -41,7 +47,7 @@ void clearBuffer()
 {
     // Clear Color Buffer
     glClearColor(0.3f, 0.2f, 0.2f, 1.0f); 
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void processInput(GLFWwindow* window)
