@@ -23,26 +23,73 @@ struct Block
 class Chunk
 {
 public:
-    Chunk() = delete;
+    Chunk();
     ~Chunk();
     Chunk(Block***copiedChunk, int xOffset, int yOffset);
     
     // deleating copy constructor
     Chunk(const Chunk&) = delete;
-    Chunk& operator=(Chunk&) = delete;
+    Chunk& operator=(Chunk& chunk) = delete; 
 
-
+    // move operator
     Chunk(Chunk&& chunk);
+    Chunk& operator=(Chunk&& chunk); 
 
-    void render(const Shader& shader) const;
+    void render(Shader& shader) const;
 private:
     void makeBlockMesh(int x, int y, int z);
     void createMesh();
 
     int m_yOffset, m_xOffset;
-    Block*** m_blocks;
+    Block*** m_blocks {nullptr};
     std::vector<float> m_vertices {};
+    unsigned int VAO, VBO;
 };
 
-Chunk&& makeTestChunk();
+void makeTestChunk(Chunk& chunk);
+
+static float cubeVertices[] = {
+    -1.0f, -1.0f, -1.0f,  
+    1.0f, -1.0f, -1.0f,  
+    1.0f,  1.0f, -1.0f,  
+    1.0f,  1.0f, -1.0f,  
+    -1.0f,  1.0f, -1.0f,  
+    -1.0f, -1.0f, -1.0f,  
+
+    -1.0f, -1.0f,  1.0f,  
+    1.0f, -1.0f,  1.0f,  
+    1.0f,  1.0f,  1.0f,  
+    1.0f,  1.0f,  1.0f,  
+    -1.0f,  1.0f,  1.0f,  
+    -1.0f, -1.0f,  1.0f,  
+
+    -1.0f,  1.0f,  1.0f,  
+    -1.0f,  1.0f, -1.0f,  
+    -1.0f, -1.0f, -1.0f,  
+    -1.0f, -1.0f, -1.0f,  
+    -1.0f, -1.0f,  1.0f,  
+    -1.0f,  1.0f,  1.0f,  
+
+    1.0f,  1.0f,  1.0f,  
+    1.0f,  1.0f, -1.0f,  
+    1.0f, -1.0f, -1.0f,  
+    1.0f, -1.0f, -1.0f,  
+    1.0f, -1.0f,  1.0f,  
+    1.0f,  1.0f,  1.0f,  
+
+    -1.0f, -1.0f, -1.0f,  
+    1.0f, -1.0f, -1.0f,  
+    1.0f, -1.0f,  1.0f,  
+    1.0f, -1.0f,  1.0f,  
+    -1.0f, -1.0f,  1.0f,  
+    -1.0f, -1.0f, -1.0f,  
+
+    -1.0f,  1.0f, -1.0f,  
+    1.0f,  1.0f, -1.0f,  
+    1.0f,  1.0f,  1.0f,  
+    1.0f,  1.0f,  1.0f,  
+    -1.0f,  1.0f,  1.0f,  
+    -1.0f,  1.0f, -1.0f
+};
+
 #endif
