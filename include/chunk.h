@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "shader.h"
-inline constexpr int ChunkSize  {32};
+inline constexpr int ChunkSize  {16};
 inline constexpr int BlockSize  {1};
 
 enum BlockTypes 
