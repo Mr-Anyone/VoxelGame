@@ -1,8 +1,5 @@
 #ifndef TERRAIN_H 
 #define TERRAIN_H 
 
-void makeTerrain()
-{
-
-}
+void makeTerrain();
 #endif
