@@ -20,7 +20,7 @@ int main()
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     
     ChunkManager manager;
-    manager.setRenderDistance(2);
+    manager.setRenderDistance(1);
 
     while(!glfwWindowShouldClose(window))
     {
