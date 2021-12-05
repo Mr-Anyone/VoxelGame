@@ -15,7 +15,6 @@ Chunk::Chunk(Chunk&& chunk)
     if(&chunk == this)
         return; 
     
-    std::cout << "Moved Mesh" << std::endl;
     m_blocks = chunk.m_blocks;
     chunk.m_blocks = nullptr; 
     
@@ -30,7 +29,6 @@ Chunk::Chunk(Chunk&& chunk)
 
 Chunk::~Chunk()
 {
-    std::cout << "Deallocate Memory" << std::endl;
     if(m_blocks == nullptr)
     {
         return;
@@ -87,7 +85,6 @@ void Chunk::makeBlockMesh(int x, int y, int z)
 
 void Chunk::createMesh()
 {
-    std::cout << "Creating Mesh" << std::endl;
     for(int x = 0 ; x<ChunkSize; ++x)
     {
         for(int y = 0; y<ChunkSize; ++y)
@@ -104,7 +101,6 @@ void Chunk::createMesh()
         }
     }
 
-    std::cout << "Made Object" << std::endl;
     // Create OpenGL Object
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO); 
@@ -119,9 +115,7 @@ void Chunk::createMesh()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) (sizeof(float) * 3)); 
     glEnableVertexAttribArray(1);
 
-    std::cout << "Made OpenGL Object" << std::endl;
-    std::cout << "Mesh Size: " << m_vertices.size() << std::endl;
-    // glBindVertexArray(0);
+    glBindVertexArray(0);
 }
 
 void Chunk::render(Shader& shader) const 
@@ -168,7 +162,6 @@ void makeTestChunk(Chunk& chunk, int xOffset, int zOffset)
 Chunk::Chunk(): 
     m_isActive {false}
 {
-    std::cout << "Created Empty Chunk" << std::endl;
 }
 
 Chunk& Chunk::operator=(Chunk&& chunk)
@@ -177,7 +170,6 @@ Chunk& Chunk::operator=(Chunk&& chunk)
     if(&chunk == this)
         return *this; 
     
-    std::cout << "Moved Mesh" << std::endl;
     m_blocks = chunk.m_blocks;
     chunk.m_blocks = nullptr; 
     
