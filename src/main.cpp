@@ -17,22 +17,22 @@ Camera camera_g {glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0), glm::
 
 int main() 
 {
-    // GLFWwindow* window {opengl_init()};
-    // Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
+    GLFWwindow* window {opengl_init()};
+    Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     
-    // ChunkManager manager;
-    // manager.setRenderDistance(1);
-    makeTerrain();
-    // while(!glfwWindowShouldClose(window))
-    // {
-    //     processInput(window);
-    //     clearBuffer();
+    ChunkManager manager;
+    manager.setRenderDistance(1);
+    
+    while(!glfwWindowShouldClose(window))
+    {
+        processInput(window);
+        clearBuffer();
 
-    //     // drawing the first triangle
-    //     manager.render(shader, camera_g.getPosition());
+        // drawing the first triangle
+        manager.render(shader, camera_g.getPosition());
 
-    //     glfwPollEvents();    
-    //     glfwSwapBuffers(window);
-    // }
+        glfwPollEvents();    
+        glfwSwapBuffers(window);
+    }
     return 0;
 }

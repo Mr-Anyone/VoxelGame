@@ -3,6 +3,7 @@
 
 #include "chunk.h"
 #include "chunkManager.h"
+#include "terrain.h"
 
 ChunkManager::ChunkManager()
     : m_renderDistance(2) 
@@ -53,7 +54,7 @@ void ChunkManager::render(Shader& shader, const glm::vec3& playerPos)
 void ChunkManager::makeNewChunk(ChunkCoordinate coordinate)
 {
     Chunk chunk; 
-    makeTestChunk(chunk, coordinate.first, coordinate.second);
+    makeTerrain(coordinate, chunk);
 
     m_chunks[coordinate] = std::move(chunk);
 }
