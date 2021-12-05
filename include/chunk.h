@@ -22,10 +22,11 @@ struct Block
 
 class Chunk
 {
+    // TO Do: remove is m_isActive as I don't this I will be needing it
 public:
     Chunk();
     ~Chunk();
-    Chunk(Block***copiedChunk, int xOffset, int yOffset);
+    Chunk(Block***copiedChunk, int xOffset, int zOffset);
     
     // deleating copy constructor
     Chunk(const Chunk&) = delete;
@@ -36,18 +37,21 @@ public:
     Chunk& operator=(Chunk&& chunk); 
 
     void render(Shader& shader) const;
+    void setOffset(int xOffset, int zOffset);
+    bool IsActive() const;
 private:
     bool hasNeighbourOnFourSide(int x, int y, int z);
     void makeBlockMesh(int x, int y, int z);
     void createMesh();
 
-    int m_yOffset, m_xOffset;
+    int m_zOffset{0}, m_xOffset {0};
+    bool m_isActive {false};
     Block*** m_blocks {nullptr};
     std::vector<float> m_vertices {};
-    unsigned int VAO, VBO;
+    unsigned int VAO{0}, VBO{0};
 };
 
-void makeTestChunk(Chunk& chunk);
+void makeTestChunk(Chunk& chunk, int xOffset, int yOffset);
 
 static float cubeVertices[] = {
     -1.0f, -1.0f, -1.0f,  

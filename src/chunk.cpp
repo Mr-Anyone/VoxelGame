@@ -3,6 +3,7 @@
 
 #include "chunk.h"
 #include "camera.h"
+#include "chunkManager.h"
 #include "shader.h"
 
 extern Camera camera_g;
@@ -21,7 +22,8 @@ Chunk::Chunk(Chunk&& chunk)
     m_vertices.swap(chunk.m_vertices);
 
     m_xOffset = chunk.m_xOffset;
-    m_yOffset = chunk.m_yOffset;
+    m_isActive = chunk.m_isActive;
+    m_zOffset = chunk.m_zOffset;
     VAO = chunk.VAO;
     VBO = chunk.VBO ;
 }
@@ -45,7 +47,8 @@ Chunk::~Chunk()
     }
 }
 
-Chunk::Chunk(Block***copiedChunk, int xOffset, int yOffset)
+Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset): 
+    m_xOffset {xOffset}, m_zOffset{zOffset}, m_isActive{true}
 {
     m_blocks = new Block**[ChunkSize];
 
@@ -64,8 +67,6 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int yOffset)
             }
         }
     }
-    m_xOffset = xOffset; 
-    m_yOffset = yOffset;
     this->createMesh();
 }
 
@@ -74,9 +75,9 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     for(int i = 0; i<sizeof(cubeVertices)/ sizeof(float); i += 3)
     {
         // x, y, z position data
-        m_vertices.push_back(cubeVertices[i] + x);
+        m_vertices.push_back(cubeVertices[i] + x + m_xOffset * ChunkSize);
         m_vertices.push_back(cubeVertices[i + 1] + y);
-        m_vertices.push_back(cubeVertices[i + 2] + z);
+        m_vertices.push_back(cubeVertices[i + 2] + z + m_zOffset * ChunkSize);
     }
 }
 
@@ -125,7 +126,7 @@ void Chunk::render(Shader& shader) const
     glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
 }
 
-void makeTestChunk(Chunk& chunk)
+void makeTestChunk(Chunk& chunk, int xOffset, int zOffset)
 {
     // allocating memory for block
     Block*** blocks {new Block** [ChunkSize]}; 
@@ -151,10 +152,13 @@ void makeTestChunk(Chunk& chunk)
         }
     }
     // Make Chunk
-    chunk = std::move(Chunk  (blocks, 0, 0));   
+    chunk = std::move(Chunk  (blocks, xOffset, zOffset));   
+    
+    // deallocate memory for blocks 
 }
 
-Chunk::Chunk()
+Chunk::Chunk(): 
+    m_isActive {false}
 {
     std::cout << "Created Empty Chunk" << std::endl;
 }
@@ -172,7 +176,7 @@ Chunk& Chunk::operator=(Chunk&& chunk)
     m_vertices.swap(chunk.m_vertices);
 
     m_xOffset = chunk.m_xOffset;
-    m_yOffset = chunk.m_yOffset;
+    m_zOffset = chunk.m_zOffset;
     VAO = chunk.VAO;
     VBO = chunk.VBO ;
     return *this;
@@ -233,5 +237,15 @@ bool Chunk::hasNeighbourOnFourSide(int x, int y, int z)
         }
     }
     return true;
+}
 
+void Chunk::setOffset(int xOffset, int zOffset) 
+{
+    m_xOffset = xOffset; 
+    m_zOffset = zOffset;
+}
+
+bool Chunk::IsActive() const 
+{
+    return m_isActive;
 }

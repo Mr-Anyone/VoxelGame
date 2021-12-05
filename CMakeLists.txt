@@ -9,6 +9,7 @@ add_executable(VoxelGame
     src/main.cpp 
     src/common.cpp
     src/chunk.cpp
+    src/chunkManager.cpp
     3rd-party/glad.c)
 target_link_libraries(VoxelGame glfw)
 target_include_directories(VoxelGame PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party ${PROJECT_SOURCE_DIR}/include)

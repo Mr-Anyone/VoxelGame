@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "common.h"
 #include "chunk.h"
+#include "chunkManager.h"
 
 extern constexpr int width_g {800};
 extern constexpr int height_g {600};
@@ -19,7 +20,11 @@ int main()
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     
     Chunk chunk;
-    makeTestChunk(chunk);
+    makeTestChunk(chunk, 1, 0);
+    Chunk chunk2;
+    makeTestChunk(chunk2, 0, 1);
+    // ChunkManager manager;
+
     while(!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -28,6 +33,7 @@ int main()
         // drawing the first triangle
         shader.use(); 
         chunk.render(shader);
+        chunk2.render(shader);
 
         glfwPollEvents();    
         glfwSwapBuffers(window);
