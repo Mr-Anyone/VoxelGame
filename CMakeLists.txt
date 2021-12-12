@@ -11,7 +11,9 @@ add_executable(VoxelGame
     src/chunk.cpp
     src/chunkManager.cpp
     src/terrain.cpp
-    3rd-party/glad.c)
+    3rd-party/glad.c
+    3rd-party/noiseutils.cpp
+)
     
 target_link_libraries(VoxelGame glfw /usr/local/lib/libnoise.a)
 target_include_directories(VoxelGame PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party ${PROJECT_SOURCE_DIR}/include)
