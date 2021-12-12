@@ -86,13 +86,29 @@ static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, 
 
 void Chunk::makeBlockMesh(int x, int y, int z)
 {
-    // Push Back Vertices
-    pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
-    pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
-    pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
-    pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
-    pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
-    pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    // The would render the edge of the chunk
+    
+    // the top block face
+    if(!m_blocks[x][y + 1][z].isActive ||  y + 1 >= ChunkSize)
+        pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    
+    // bottom block face
+    if(!m_blocks[x][y - 1][z].isActive ||  y - 1 < 0 )
+        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    
+    // right block face
+    if(!m_blocks[x + 1][y][z].isActive || x +1 >=ChunkSize)
+        pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    
+    // left block face 
+    if(!m_blocks[x - 1][y][z].isActive || x - 1 < 0 )
+        pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+
+    if(!m_blocks[x][y][z - 1].isActive  || z -1 < 0)
+        pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    
+    if(!m_blocks[x][y][z + 1].isActive  || z + 1 >= ChunkSize)
+        pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
 }
 
 void Chunk::createMesh()
@@ -103,9 +119,6 @@ void Chunk::createMesh()
         {
             for(int z = 0 ; z<ChunkSize; ++z)
             {
-                if(hasNeighbourOnFourSide(x, y, z))
-                    continue;
-
                 if(!m_blocks[x][y][z].isActive)
                     continue;
                 makeBlockMesh(x, y, z);
