@@ -54,7 +54,7 @@ void processInput(GLFWwindow* window)
 {
     if(glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    constexpr int speed {1}; 
+    constexpr float speed {1.0}; 
     
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera_g.moveFront(speed);

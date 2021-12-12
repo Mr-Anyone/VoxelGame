@@ -89,26 +89,62 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     // The would render the edge of the chunk
     
     // the top block face
-    if(!m_blocks[x][y + 1][z].isActive ||  y + 1 >= ChunkSize)
+    if( y + 1 >= ChunkSize)
+    {
+
+    }
+    else if(!m_blocks[x][y + 1][z].isActive)
+    {
         pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    }
     
     // bottom block face
-    if(!m_blocks[x][y - 1][z].isActive ||  y - 1 < 0 )
+    if(y - 1 < 0)
+    {
+
+    }
+    else if(!m_blocks[x][y - 1][z].isActive )
+    {
         pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    }
     
     // right block face
-    if(!m_blocks[x + 1][y][z].isActive || x +1 >=ChunkSize)
+    if(x +1 >=ChunkSize)
+    {
+
+    }
+    else if(!m_blocks[x + 1][y][z].isActive)
+    {
         pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    }
     
     // left block face 
-    if(!m_blocks[x - 1][y][z].isActive || x - 1 < 0 )
-        pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    if( x - 1 < 0 )
+    {
 
-    if(!m_blocks[x][y][z - 1].isActive  || z -1 < 0)
+    }
+    else if(!m_blocks[x - 1][y][z].isActive )
+    {
+        pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    }
+
+    if(z -1 < 0)
+    {
+
+    }
+    else if(!m_blocks[x][y][z - 1].isActive)
+    {
         pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    }
     
-    if(!m_blocks[x][y][z + 1].isActive  || z + 1 >= ChunkSize)
+    if(z + 1 >= ChunkSize)
+    {
+
+    }
+    else if(!m_blocks[x][y][z + 1].isActive )
+    {
         pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    }
 }
 
 void Chunk::createMesh()
@@ -125,7 +161,7 @@ void Chunk::createMesh()
             }
         }
     }
-    std::cout << m_vertices.size() << std::endl;
+    std::cout << "M Vertices Size: " << m_vertices.size() << std::endl;
     // Create OpenGL Object
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO); 
@@ -173,7 +209,19 @@ void makeTestChunk(Chunk& chunk, int xOffset, int zOffset)
         {
             for(int z = 0; z<ChunkSize; ++z)
             {
-                blocks[x][y][z].isActive = true;
+                if(x == 1 && y == 1 && z == 1)
+                {
+                    blocks[x][y][z].isActive = true;
+                }
+                else if (x == 1 && y == 1 && z ==2)
+                {
+                    blocks[x][y][z].isActive = true;
+                }
+                else
+                {
+                   blocks[x][y][z].isActive = false; 
+                }
+
                 blocks[x][y][z].type = WHITE;
             }
         }

@@ -1,58 +1,60 @@
 #ifndef CUBEVERTICES_H
 #define CUBEVERTICES_H
 
-static float  backFaceCubeVertices[] = {
-    -1.0f, -1.0f, -1.0f,  0.0f, 0.0f, // Bottom-left
-    1.0f, -1.0f, -1.0f,  1.0f, 0.0f, // bottom-right    
-    1.0f,  1.0f, -1.0f,  1.0f, 1.0f, // top-right              
-    1.0f,  1.0f, -1.0f,  1.0f, 1.0f, // top-right
-    -1.0f,  1.0f, -1.0f,  0.0f, 1.0f, // top-left
-    -1.0f, -1.0f, -1.0f,  0.0f, 0.0f, // bottom-left                
-};
-
-static float frontFaceCubeVertices[] = {
-    -1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-left
-    1.0f,  1.0f,  1.0f,  1.0f, 1.0f, // top-right
-    1.0f, -1.0f,  1.0f,  1.0f, 0.0f, // bottom-right        
-    1.0f,  1.0f,  1.0f,  1.0f, 1.0f, // top-right
-    -1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-left
-    -1.0f,  1.0f,  1.0f,  0.0f, 1.0f, // top-left    
+float backFaceCubeVertices[] = {
+    // Back face
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom-left
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // bottom-right    
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right              
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // bottom-left                
 }; 
-static float leftFaceCubeVertices[] ={
-      // Left face
-    -1.0f,  1.0f,  1.0f,  1.0f, 0.0f, // top-right
-    -1.0f, -1.0f, -1.0f,  0.0f, 1.0f, // bottom-left
-    -1.0f,  1.0f, -1.0f,  1.0f, 1.0f, // top-left       
-    -1.0f, -1.0f, -1.0f,  0.0f, 1.0f, // bottom-left
-    -1.0f,  1.0f,  1.0f,  1.0f, 0.0f, // top-right
-    -1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-right
-};
-static float rightFaceCubeVertices [] = {
-    1.0f,  1.0f,  1.0f,  1.0f, 0.0f, // top-left
-     1.0f,  1.0f, -1.0f,  1.0f, 1.0f, // top-right      
-     1.0f, -1.0f, -1.0f,  0.0f, 1.0f, // bottom-right          
-     1.0f, -1.0f, -1.0f,  0.0f, 1.0f, // bottom-right
-     1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-left
-     1.0f,  1.0f,  1.0f,  1.0f, 0.0f, // top-left
+
+float frontFaceCubeVertices[] = {
+    // Front face
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-right        
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, // top-left        
 };
 
-static float bottomFaceCubeVertices[] = {
-      // Bottom face          
-    -1.0f, -1.0f, -1.0f,  0.0f, 1.0f, // top-right
-     1.0f, -1.0f,  1.0f,  1.0f, 0.0f, // bottom-left
-     1.0f, -1.0f, -1.0f,  1.0f, 1.0f, // top-left        
-     1.0f, -1.0f,  1.0f,  1.0f, 0.0f, // bottom-left
-    -1.0f, -1.0f, -1.0f,  0.0f, 1.0f, // top-right
-    -1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-right
+float leftFaceCubeVertices [] = {
+    // Left face
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-left       
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
+}; 
+float rightFaceCubeVertices[] = {
+    // Right face
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right      
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right          
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
+}; 
+float bottomFaceCubeVertices [] = {
+    // Bottom face          
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, // top-left        
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
 };
-
-static float topFaceCubeVertices [] = {
-  // Top face
-    -1.0f,  1.0f, -1.0f,  0.0f, 1.0f, // top-left
-     1.0f,  1.0f, -1.0f,  1.0f, 1.0f, // top-right
-     1.0f,  1.0f,  1.0f,  1.0f, 0.0f, // bottom-right                 
-     1.0f,  1.0f,  1.0f,  1.0f, 0.0f, // bottom-right
-    -1.0f,  1.0f,  1.0f,  0.0f, 0.0f, // bottom-left  
-    -1.0f,  1.0f, -1.0f,  0.0f, 1.0f  // top-left              
+float topFaceCubeVertices [] = {
+// Top face
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // bottom-right                 
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, // bottom-left  
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f  // top-left              
 };
 #endif

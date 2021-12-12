@@ -21,32 +21,23 @@ static Block*** makeBlockMemory()
     return blocks;
 }
 
-static int processValue(double value)
-{
-    // capping value
-    if(value <= -1)
-        value = -1; 
-    if(value >=1 )
-        value = 1;
-
-    return static_cast<int> ((value + 1) * 0.5 * ChunkSize);
-}
 
 void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
 {
     static noise::module::Perlin myModule;
+    constexpr double threshold {0.5};
     Block*** blocks {makeBlockMemory()};
 
     // Creating Block Mesh
     for(int x = 0; x<ChunkSize; ++x)
     {
-        for(int z = 0; z<ChunkSize; ++z)
+        for(int y = 0 ; y<ChunkSize; ++y)
         {
-            double value = myModule.GetValue (x + ChunkSize * coordinate.first, 5.1, z + ChunkSize * coordinate.second);
-            int processedValue = processValue(value);
-            for(int y = 0; y<ChunkSize; ++y)
+            for(int z = 0; z<ChunkSize; ++z)
             {
-                if(y <processedValue)
+                double noiseValue = myModule.GetValue(static_cast<double> (x + coordinate.first * ChunkSize) * 0.1, static_cast<double> (y) * 0.1, static_cast<double> (z + coordinate.second * ChunkSize) * 0.1); 
+                // std::cout << noiseValue << std::endl;
+                if(noiseValue > threshold)
                 {
                     blocks[x][y][z].isActive = true;
                 }
@@ -55,7 +46,6 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
                     blocks[x][y][z].isActive = false;
                 }
             }
-            
         }
     }
 
