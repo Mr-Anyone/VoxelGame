@@ -11,6 +11,7 @@
 #include "chunk.h"
 #include "chunkManager.h"
 #include "terrain.h"
+#define RENDER_TEST_CHUNK 
 
 extern constexpr int width_g {800};
 extern constexpr int height_g {600};
@@ -22,10 +23,13 @@ int main()
     GLFWwindow* window {opengl_init()};
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     
-    ChunkManager manager;
-    // manager.setRenderDistance(3);
+#ifdef RENDER_TEST_CHUNK
     Chunk chunk; 
     makeTestChunk(chunk, 0, 0);
+#else
+    ChunkManager manager;
+    manager.setRenderDistance(3);
+#endif
 
     while(!glfwWindowShouldClose(window))
     {
@@ -33,8 +37,11 @@ int main()
         clearBuffer();
 
         // drawing the first triangle
-        // manager.render(shader, camera_g.getPosition());
+#ifdef RENDER_TEST_CHUNK
         chunk.render(shader);
+#else 
+        manager.render(shader, camera_g.getPosition());
+#endif
     
         glfwPollEvents();    
         glfwSwapBuffers(window);
