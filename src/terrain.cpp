@@ -1,5 +1,6 @@
 #include <iostream>
 #include <noise/noise.h>
+#include <noiseutils.h>
 
 #include "terrain.h"
 #include "chunk.h"
@@ -24,20 +25,19 @@ static Block*** makeBlockMemory()
 
 void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
 {
-    static noise::module::Perlin myModule;
+    static noise::module::Perlin perlinNoiseModule;
     constexpr double threshold {0.5};
     Block*** blocks {makeBlockMemory()};
-
+    
     // Creating Block Mesh
     for(int x = 0; x<ChunkSize; ++x)
     {
-        for(int y = 0 ; y<ChunkSize; ++y)
+        for(int y = 0; y<ChunkSize; ++y)
         {
             for(int z = 0; z<ChunkSize; ++z)
             {
-                double noiseValue = myModule.GetValue(static_cast<double> (x + coordinate.first * ChunkSize) * 0.1, static_cast<double> (y) * 0.1, static_cast<double> (z + coordinate.second * ChunkSize) * 0.1); 
-                // std::cout << noiseValue << std::endl;
-                if(noiseValue > threshold)
+                double value = perlinNoiseModule.GetValue(0.1 * x, 0.1 * y, 0.1 * z);
+                if(value > threshold)
                 {
                     blocks[x][y][z].isActive = true;
                 }

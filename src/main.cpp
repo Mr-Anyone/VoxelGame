@@ -11,7 +11,7 @@
 #include "chunk.h"
 #include "chunkManager.h"
 #include "terrain.h"
-#define RENDER_TEST_CHUNK 
+// #define RENDER_TEST_CHUNK 
 
 extern constexpr int width_g {800};
 extern constexpr int height_g {600};
@@ -25,7 +25,7 @@ int main()
     
 #ifdef RENDER_TEST_CHUNK
     Chunk chunk; 
-    makeTestChunk(chunk, 0, 0);
+    makeTerrain({1, 0}, chunk);
 #else
     ChunkManager manager;
     manager.setRenderDistance(3);
