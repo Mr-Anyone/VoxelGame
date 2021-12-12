@@ -22,8 +22,10 @@ int main()
     GLFWwindow* window {opengl_init()};
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     
-    ChunkManager manager;
-    manager.setRenderDistance(1);
+    // ChunkManager manager;
+    // manager.setRenderDistance(2);
+    Chunk chunk; 
+    makeTestChunk(chunk, 0, 0 );
 
     while(!glfwWindowShouldClose(window))
     {
@@ -31,7 +33,8 @@ int main()
         clearBuffer();
 
         // drawing the first triangle
-        manager.render(shader, camera_g.getPosition());
+        // manager.render(shader, camera_g.getPosition());
+        chunk.render(shader); 
 
         glfwPollEvents();    
         glfwSwapBuffers(window);

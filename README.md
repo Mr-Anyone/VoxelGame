@@ -12,3 +12,7 @@ You have to understand that these are not easy things to implement. In fact, Ope
 ## To Do List 
 
 1. Better Buildsystem! Something that will work right out of the box
+ 
+## Performance Tool 
+Test Mesh Veritces Count: 1038240
+Optimization Cube

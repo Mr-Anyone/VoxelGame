@@ -5,6 +5,7 @@
 #include "camera.h"
 #include "chunkManager.h"
 #include "shader.h"
+#include "cubeVertices.h"
 
 extern Camera camera_g;
 extern glm::mat4 projection_g;
@@ -68,19 +69,30 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset):
     this->createMesh();
 }
 
-void Chunk::makeBlockMesh(int x, int y, int z)
+static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, std::size_t size, int x, int y, int z, int xOffest, int zOffset)
 {
-    for(int i = 0; i<sizeof(cubeVertices)/ sizeof(float); i += 5)
+    for(int i = 0; i<size; i += 5)
     {
         // x, y, z position data
-        m_vertices.push_back(cubeVertices[i] + x + m_xOffset * ChunkSize);
-        m_vertices.push_back(cubeVertices[i + 1] + y);
-        m_vertices.push_back(cubeVertices[i + 2] + z + m_zOffset * ChunkSize);
-        // textures informations
-        m_vertices.push_back(cubeVertices[i+ 3]);
-        m_vertices.push_back(cubeVertices[i+ 4]);
+        vertices.push_back(cubeVertices[i] + x + xOffest * ChunkSize);
+        vertices.push_back(cubeVertices[i + 1] + y);
+        vertices.push_back(cubeVertices[i + 2] + z + zOffset * ChunkSize);
 
+        // texture informations
+        vertices.push_back(cubeVertices[i + 3]);
+        vertices.push_back(cubeVertices[i + 4]);
     }
+}
+
+void Chunk::makeBlockMesh(int x, int y, int z)
+{
+    // Push Back Vertices
+    pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+    pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
 }
 
 void Chunk::createMesh()
@@ -93,14 +105,14 @@ void Chunk::createMesh()
             {
                 if(hasNeighbourOnFourSide(x, y, z))
                     continue;
-                
+
                 if(!m_blocks[x][y][z].isActive)
                     continue;
                 makeBlockMesh(x, y, z);
             }
         }
     }
-
+    std::cout << m_vertices.size() << std::endl;
     // Create OpenGL Object
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO); 
