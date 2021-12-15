@@ -3,7 +3,7 @@ project(VoxelGame)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(glfw3 3.3 REQUIRED)
+add_subdirectory(3rd-party)
 
 add_executable(VoxelGame 
     src/main.cpp 
@@ -11,9 +11,9 @@ add_executable(VoxelGame
     src/chunk.cpp
     src/chunkManager.cpp
     src/terrain.cpp
-    3rd-party/glad.c
-    3rd-party/noiseutils.cpp
 )
     
-target_link_libraries(VoxelGame glfw /usr/local/lib/libnoise.a)
-target_include_directories(VoxelGame PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(VoxelGame glfw noise-static glm::glm glad)
+
+set(THIRD_PARTY_INCLUDE ${PROJECT_SOURCE_DIR}/3rd-party/glad/include ${PROJECT_SOURCE_DIR}/3rd-party/libnoise/src ${PROJECT_SOURCE_DIR}/3rd-party/stbi_image)
+target_include_directories(VoxelGame PRIVATE  ${THIRD_PARTY_INCLUDE} ${PROJECT_SOURCE_DIR}/include)

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <noise/noise.h>
-#include <noiseutils.h>
 
 #include "terrain.h"
 #include "chunk.h"

@@ -11,7 +11,6 @@ You have to understand that these are not easy things to implement. In fact, Ope
 
 ## To Do List 
 
-1. Better Buildsystem! Something that will work right out of the box
-2. Faster Terrain Generation or the use of threading  (The game lags with terrain is trying to generate)
-3. Texture mapping! Currently, there is only one type of block 
-4. Make a height map somehow
+1. Faster Terrain Generation or the use of threading  (The game lags with terrain is trying to generate)
+2. Texture mapping! Currently, there is only one type of block 
+3. Make a height map somehow
