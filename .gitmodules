@@ -1,0 +1,6 @@
+[submodule "3rd-party/glfw"]
+	path = 3rd-party/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "3rd-party/libnoise"]
+	path = 3rd-party/libnoise
+	url = https://github.com/qknight/libnoise.git
