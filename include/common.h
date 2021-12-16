@@ -4,6 +4,10 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+// A list  of constants
+constexpr int width_g {800};
+constexpr int height_g {600};
+
 // the following are a list of common functions
 GLFWwindow* opengl_init();
 void clearBuffer();

@@ -6,8 +6,6 @@
 #include "camera.h"
 #include "stbi_image.h"
 
-extern int width_g;
-extern int height_g;
 extern Camera camera_g;
 
 GLFWwindow* opengl_init()

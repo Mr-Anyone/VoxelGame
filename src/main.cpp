@@ -1,6 +1,5 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream> 
 #include <glm/glm.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi_image.h>
@@ -11,10 +10,8 @@
 #include "chunk.h"
 #include "chunkManager.h"
 #include "terrain.h"
-// #define RENDER_TEST_CHUNK 
+//#define RENDER_TEST_CHUNK
 
-extern constexpr int width_g {800};
-extern constexpr int height_g {600};
 glm::mat4 projection_g {glm::perspective(glm::radians(45.0f), static_cast<float> (width_g) / height_g, 0.1f, 1000.0f)};
 Camera camera_g {glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0), glm::vec3(0.0f, 1.0f, 0.0f)};
 
