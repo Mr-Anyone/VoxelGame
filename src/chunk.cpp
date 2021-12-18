@@ -71,16 +71,19 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset):
 
 static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, std::size_t size, int x, int y, int z, int xOffest, int zOffset)
 {
-    for(int i = 0; i<size; i += 5)
+    for(int i = 0; i<size; i += 6)
     {
         // x, y, z position data
         vertices.push_back(cubeVertices[i] + x + xOffest * ChunkSize);
         vertices.push_back(cubeVertices[i + 1] + y);
         vertices.push_back(cubeVertices[i + 2] + z + zOffset * ChunkSize);
 
-        // texture informations
+        // texture information
         vertices.push_back(cubeVertices[i + 3]);
         vertices.push_back(cubeVertices[i + 4]);
+
+        //lighting information
+        vertices.push_back(cubeVertices[i + 5]);
     }
 }
 
@@ -101,7 +104,7 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     // bottom block face
     if(y - 1 < 0)
     {
-        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+//        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
     }
     else if(!m_blocks[x][y - 1][z].isActive )
     {
@@ -169,11 +172,14 @@ void Chunk::createMesh()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float), &m_vertices[0], GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) 0 ); 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*) 0 );
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) (sizeof(float) * 3)); 
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*) (sizeof(float) * 3));
     glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) (sizeof(float) * 5));
+    glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
 }
