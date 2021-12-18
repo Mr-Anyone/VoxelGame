@@ -29,7 +29,7 @@ int main()
     makeTerrain({0, 0}, chunk);
 #else // Render Test Chunk
     ChunkManager manager;
-    manager.setRenderDistance(1);
+    manager.setRenderDistance(4);
 #endif
 
     while(!glfwWindowShouldClose(window))

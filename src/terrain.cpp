@@ -35,8 +35,8 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
 
     static noise::module::Perlin perlinModule;
     perlinModule.SetSeed(seed);
-    perlinModule.SetOctaveCount(10);
-    perlinModule.SetFrequency(0.05);
+    perlinModule.SetOctaveCount(8);
+    perlinModule.SetFrequency(0.005);
     perlinModule.SetPersistence(0.5);
 
     utils::NoiseMap heightMap; // creating two-dimensional height map
@@ -82,43 +82,3 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
     }
     delete[] blocks;
 }
-
-//void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
-//{
-//    static noise::module::Perlin perlinNoiseModule;
-//    constexpr double threshold {0.5};
-//    Block*** blocks {makeBlockMemory()};
-//
-//    // Creating Block Mesh
-//    for(int x = 0; x<ChunkSize; ++x)
-//    {
-//        for(int y = 0; y<ChunkSize; ++y)
-//        {
-//            for(int z = 0; z<ChunkSize; ++z)
-//            {
-//                double value = perlinNoiseModule.GetValue(0.1 * x, 0.1 * y, 0.1 * z);
-//                if(value > threshold)
-//                {
-//                    blocks[x][y][z].isActive = true;
-//                }
-//                else
-//                {
-//                    blocks[x][y][z].isActive = false;
-//                }
-//            }
-//        }
-//    }
-//
-//    chunk = std::move(Chunk (blocks, coordinate.first, coordinate.second));
-//
-//    // deallocate block mesh
-//    for(int x = 0; x<ChunkSize; ++x)
-//    {
-//        for(int i = 0; i<ChunkSize; ++i)
-//        {
-//            delete[] blocks[x][i];
-//        }
-//        delete[] blocks[x];
-//    }
-//    delete[] blocks;
-//}
