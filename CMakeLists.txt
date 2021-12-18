@@ -13,7 +13,7 @@ add_executable(VoxelGame
     src/terrain.cpp
 )
     
-target_link_libraries(VoxelGame glfw noise-static glm::glm glad)
+target_link_libraries(VoxelGame glfw noise-static glm::glm glad libnoiseutil-static)
 
-set(THIRD_PARTY_INCLUDE ${PROJECT_SOURCE_DIR}/3rd-party/glad/include ${PROJECT_SOURCE_DIR}/3rd-party/libnoise/src ${PROJECT_SOURCE_DIR}/3rd-party/stbi_image)
+set(THIRD_PARTY_INCLUDE ${PROJECT_SOURCE_DIR}/3rd-party/glad/include ${PROJECT_SOURCE_DIR}/3rd-party/libnoise/src ${PROJECT_SOURCE_DIR}/3rd-party/stbi_image ${PROJECT_SOURCE_DIR}/3rd-party/noiseutil)
 target_include_directories(VoxelGame PRIVATE  ${THIRD_PARTY_INCLUDE} ${PROJECT_SOURCE_DIR}/include)

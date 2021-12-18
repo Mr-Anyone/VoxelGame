@@ -6,6 +6,7 @@ target_include_directories(glad PRIVATE ${THIRD_PARTY_INCLUDE_DIR})
 # Other Libraries
 add_subdirectory(glm)
 add_subdirectory(glfw)
+add_subdirectory(noiseutil)
 
 set(BUILD_SHARED_LIBS ON)
 set(BUILD_LIBNOISE_UTILS ON)
