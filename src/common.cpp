@@ -36,8 +36,8 @@ GLFWwindow* opengl_init()
     
     stbi_set_flip_vertically_on_load(true);  
     
-    // Enable Depth Buffer
-    glEnable(GL_DEPTH_TEST);  
+    // Enable Depth Buffer and face culling
+    glEnable(GL_DEPTH_TEST);
     return window;
 }
 
@@ -52,7 +52,7 @@ void processInput(GLFWwindow* window)
 {
     if(glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    constexpr float speed {1.0}; 
+    constexpr float speed {1};
     
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera_g.moveFront(speed);
@@ -65,6 +65,7 @@ void processInput(GLFWwindow* window)
 
     static GLenum renderMode = GL_LINE; 
     if(glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+
     {
         glPolygonMode(GL_FRONT_AND_BACK, renderMode);
         switch(renderMode)
