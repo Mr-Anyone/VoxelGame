@@ -7,6 +7,5 @@ uniform sampler2D texture1;
 
 void main() 
 {
-    fragColor = light *
-    texture(texture1, textureCor);
+    fragColor = light * texture(texture1, textureCor);
 }
