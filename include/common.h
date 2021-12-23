@@ -15,5 +15,4 @@ void clearBuffer();
 // Regarding Mouse and Input (Callbacks)
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
-
-#endif 
+#endif

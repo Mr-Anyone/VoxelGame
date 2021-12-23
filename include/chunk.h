@@ -9,7 +9,7 @@ inline constexpr int BlockSize  {1};
 
 enum BlockTypes 
 {
-    BLOCKAIR, 
+    BLOCKAIR,
     WHITE,
     NUMBLOCKTYPE
 };
@@ -18,6 +18,15 @@ struct Block
 {
     BlockTypes type;
     bool isActive;
+};
+
+enum ChunkFace
+{
+    up,
+    right,
+    left,
+    down,
+    NUM
 };
 
 class Chunk
@@ -39,16 +48,18 @@ public:
     void render(Shader& shader) const;
     void setOffset(int xOffset, int zOffset);
     bool IsActive() const;
+    void createMesh();
+    void setNeighbour(ChunkFace face, Chunk* neighbour);
 private:
     bool hasNeighbourOnFourSide(int x, int y, int z);
     void makeBlockMesh(int x, int y, int z);
-    void createMesh();
 
     int m_zOffset{0}, m_xOffset {0};
     bool m_isActive {false};
     Block*** m_blocks {nullptr};
     std::vector<float> m_vertices {};
     unsigned int VAO{0}, VBO{0};
+    Chunk* m_neighbour[ChunkFace::NUM] {nullptr, nullptr, nullptr, nullptr};
 };
 
 void makeTestChunk(Chunk& chunk, int xOffset, int yOffset);

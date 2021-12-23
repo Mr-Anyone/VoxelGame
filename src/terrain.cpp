@@ -26,7 +26,7 @@ static int makeHeightFromNoise(double noise)
 {
     // Noise Cap
     double height = (noise  + 1) * 0.5 * ChunkSize;
-    return static_cast<int> (height);
+    return static_cast<int> (height) + 1;
 }
 
 void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
@@ -36,7 +36,7 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
     static noise::module::Perlin perlinModule;
     perlinModule.SetSeed(seed);
     perlinModule.SetOctaveCount(8);
-    perlinModule.SetFrequency(0.005);
+    perlinModule.SetFrequency(0.007);
     perlinModule.SetPersistence(0.5);
 
     utils::NoiseMap heightMap; // creating two-dimensional height map

@@ -18,10 +18,12 @@ class ChunkManager
     
     void makeNewChunk(ChunkCoordinate coordinate);
     void loadTexture();
+    void addNeighbour(ChunkCoordinate coordinate, bool createMesh=true);
+    void render_init(ChunkCoordinate coordinate);
 public:
     ChunkManager();
     void render(Shader& shader, const glm::vec3& playerPos);
     void setRenderDistance(int renderDistance);
-}; 
+};
 
 #endif

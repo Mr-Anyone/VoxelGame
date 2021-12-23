@@ -66,7 +66,6 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset):
             }
         }
     }
-    this->createMesh();
 }
 
 static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, std::size_t size, int x, int y, int z, int xOffest, int zOffset)
@@ -87,9 +86,14 @@ static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, 
     }
 }
 
+// FOR ATTENTION PURPOSES
+// FOR ATTENTION PURPOSES
+// PLEASE clean this code up !!!!
+// FOR ATTENTION PURPOSES
+// FOR ATTENTION PURPOSES
 void Chunk::makeBlockMesh(int x, int y, int z)
 {
-    // The would render the edge of the chunk
+    // This would render the edge of the chunk
     
     // the top block face
     if( y + 1 >= ChunkSize)
@@ -112,9 +116,19 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     }
     
     // right block face
-    if(x +1 >=ChunkSize)
+    if(x +1 >=ChunkSize) // at the edge
     {
-        pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        // does the neighbour chunk exists
+        if(m_neighbour[ChunkFace::right] == nullptr )
+        {
+            pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
+        // does neighbour block in other chunk exist
+        else if (!m_neighbour[ChunkFace::right]->m_blocks[0][y][z].isActive)
+        {
+            pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
+
     }
     else if(!m_blocks[x + 1][y][z].isActive)
     {
@@ -124,25 +138,48 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     // left block face 
     if( x - 1 < 0 )
     {
-        pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        if(m_neighbour[ChunkFace::left] == nullptr)
+        {
+            pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
+        else if(!m_neighbour[ChunkFace::left]->m_blocks[ChunkSize - 1][y][z].isActive)
+        {
+            pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
     }
     else if(!m_blocks[x - 1][y][z].isActive )
     {
         pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
     }
 
+    // Bottom
     if(z -1 < 0)
     {
-        pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        if(m_neighbour[ChunkFace::down] == nullptr)
+        {
+            pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
+        else if(!m_neighbour[ChunkFace::down]->m_blocks[x][y][ChunkSize -1].isActive)
+        {
+            pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
     }
     else if(!m_blocks[x][y][z - 1].isActive)
     {
         pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
     }
-    
+
+    // Top
     if(z + 1 >= ChunkSize)
     {
-        pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        if(m_neighbour[ChunkFace::up] == nullptr)
+        {
+            pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
+        else if(!m_neighbour[ChunkFace::up]->m_blocks[x][y][0].isActive)
+        {
+            pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        }
     }
     else if(!m_blocks[x][y][z + 1].isActive )
     {
@@ -152,6 +189,8 @@ void Chunk::makeBlockMesh(int x, int y, int z)
 
 void Chunk::createMesh()
 {
+    std::cout << "Creating New Chunk Mesh" << std::endl;
+    m_vertices.erase(m_vertices.begin(), m_vertices.end());
     for(int x = 0 ; x<ChunkSize; ++x)
     {
         for(int y = 0; y<ChunkSize; ++y)
@@ -187,7 +226,8 @@ void Chunk::createMesh()
 void Chunk::render(Shader& shader) const 
 {
     shader.use(); 
-    glBindVertexArray(VAO); 
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     shader.setMat4("view", camera_g.getView());
     shader.setMat4("model", glm::mat4 (1.0f));
     shader.setMat4("projection", projection_g);
@@ -314,4 +354,9 @@ void Chunk::setOffset(int xOffset, int zOffset)
 bool Chunk::IsActive() const 
 {
     return m_isActive;
+}
+
+void Chunk::setNeighbour(ChunkFace face, Chunk* neighbour)
+{
+    m_neighbour[face] = neighbour;
 }
