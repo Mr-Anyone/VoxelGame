@@ -55,6 +55,7 @@ private:
     void makeBlockMesh(int x, int y, int z);
 
     int m_zOffset{0}, m_xOffset {0};
+    int m_vetReserveSize {300000};
     bool m_isActive {false};
     Block*** m_blocks {nullptr};
     std::vector<float> m_vertices {};

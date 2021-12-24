@@ -49,6 +49,7 @@ Chunk::~Chunk()
 Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset): 
     m_xOffset {xOffset}, m_zOffset{zOffset}, m_isActive{true}
 {
+    m_vertices.reserve(m_vetReserveSize);
     m_blocks = new Block**[ChunkSize];
 
     // Creating and copying memory
@@ -70,18 +71,19 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset):
 
 static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, std::size_t size, int x, int y, int z, int xOffest, int zOffset)
 {
+    std::size_t reserveSize {vertices.capacity()};
+
     for(int i = 0; i<size; i += 6)
     {
-        // x, y, z position data
+        // Position (x, y, z)
         vertices.push_back(cubeVertices[i] + x + xOffest * ChunkSize);
         vertices.push_back(cubeVertices[i + 1] + y);
         vertices.push_back(cubeVertices[i + 2] + z + zOffset * ChunkSize);
-
-        // texture information
+        // texture (x, y)
         vertices.push_back(cubeVertices[i + 3]);
         vertices.push_back(cubeVertices[i + 4]);
 
-        //lighting information
+        // lighting
         vertices.push_back(cubeVertices[i + 5]);
     }
 }

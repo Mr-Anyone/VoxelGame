@@ -10,7 +10,7 @@
 #include "chunk.h"
 #include "chunkManager.h"
 #include "terrain.h"
-#define RENDER_TEST_CHUNK
+//#define RENDER_TEST_CHUNK
 #define RENDER_TERRAIN
 
 glm::mat4 projection_g {glm::perspective(glm::radians(45.0f), static_cast<float> (width_g) / height_g, 0.1f, 100000.0f)};

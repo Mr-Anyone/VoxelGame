@@ -117,7 +117,7 @@ void ChunkManager::render_init(ChunkCoordinate coordinate)
 // Render all the chunk within render distance
 void ChunkManager::render(Shader& shader, const glm::vec3& playerPos)
 {
-     ChunkCoordinate coordinate  = std::make_pair(playerPos.x / ChunkSize, playerPos.z/ChunkSize);
+    ChunkCoordinate coordinate  = std::make_pair(playerPos.x / ChunkSize, playerPos.z/ChunkSize);
     this->render_init(coordinate);
 
     for(int x = coordinate.first - m_renderDistance; x<m_renderDistance + coordinate.first + 1; ++x)
