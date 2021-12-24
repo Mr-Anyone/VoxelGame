@@ -10,16 +10,14 @@
 #include "chunk.h"
 #include "chunkManager.h"
 #include "terrain.h"
-//#define RENDER_TEST_CHUNK
+#define RENDER_TEST_CHUNK
 #define RENDER_TERRAIN
-#define DISPLAY_FPS
 
 glm::mat4 projection_g {glm::perspective(glm::radians(45.0f), static_cast<float> (width_g) / height_g, 0.1f, 100000.0f)};
 Camera camera_g {glm::vec3(0.0f, 100.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0), glm::vec3(0.0f, 1.0f, 0.0f)};
 
 int main() 
 {
-
 #ifdef RENDER_TERRAIN
     GLFWwindow* window {opengl_init()};
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
@@ -40,7 +38,7 @@ int main()
         // drawing the first triangle
 #ifdef RENDER_TEST_CHUNK
         chunk.render(shader);
-#else // Render Test Chunk
+#else // Not Render Test Chunk
         manager.render(shader, camera_g.getPosition());
 #endif
 

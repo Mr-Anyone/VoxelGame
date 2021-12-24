@@ -9,7 +9,7 @@
 // Heap allocated memory, so I could indeed return this
 static Block*** makeBlockMemory()
 {
-    Block*** blocks {new Block** [ChunkSize]}; 
+    Block*** blocks {new Block** [ChunkSize]};
     for(int i = 0; i<ChunkSize; ++i)
     {
         blocks[i] = new Block* [ChunkSize];
@@ -18,9 +18,10 @@ static Block*** makeBlockMemory()
             blocks[i][x] = new Block[ChunkSize];
         }
     }
-    
+
     return blocks;
 }
+
 
 static int makeHeightFromNoise(double noise)
 {

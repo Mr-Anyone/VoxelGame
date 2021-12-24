@@ -27,10 +27,10 @@ void ChunkManager::addNeighbour(ChunkCoordinate coordinate, bool createMesh)
     if(existInMap({coordinate.first + 1 , coordinate.second}, m_chunks))
         m_chunks[coordinate].setNeighbour(ChunkFace::right, &m_chunks[{coordinate.first + 1, coordinate.second}]);
 
-    // up side
+    // up-side
     if(existInMap({coordinate.first , coordinate.second + 1}, m_chunks))
         m_chunks[coordinate].setNeighbour(ChunkFace::up, &m_chunks[{coordinate.first , coordinate.second + 1}]);
-    // down side
+    // down-side
     if(existInMap({coordinate.first , coordinate.second - 1}, m_chunks))
         m_chunks[coordinate].setNeighbour(ChunkFace::down, &m_chunks[{coordinate.first , coordinate.second - 1 }]);
 
@@ -39,7 +39,7 @@ void ChunkManager::addNeighbour(ChunkCoordinate coordinate, bool createMesh)
 }
 
 ChunkManager::ChunkManager()
-    : m_renderDistance(2)
+    : m_renderDistance(2), m_texture {0}
 {
     // Assumes the player is at 0, 0
     // Generating chunks for the player
@@ -67,11 +67,11 @@ ChunkManager::ChunkManager()
 
 inline static void addNeighbourChunkVet(std::vector<ChunkCoordinate>& vet, ChunkCoordinate coordinate)
 {
-    vet.push_back({coordinate.first, coordinate.second});
-    vet.push_back({coordinate.first + 1, coordinate.second});
-    vet.push_back({coordinate.first - 1, coordinate.second});
-    vet.push_back({coordinate.first , coordinate.second + 1});
-    vet.push_back({coordinate.first , coordinate.second - 1});
+    vet.emplace_back(coordinate.first, coordinate.second);
+    vet.emplace_back(coordinate.first + 1, coordinate.second);
+    vet.emplace_back(coordinate.first - 1, coordinate.second);
+    vet.emplace_back(coordinate.first , coordinate.second + 1);
+    vet.emplace_back(coordinate.first , coordinate.second - 1);
 }
 
 void ChunkManager::render_init(ChunkCoordinate coordinate)

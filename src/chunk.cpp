@@ -189,7 +189,6 @@ void Chunk::makeBlockMesh(int x, int y, int z)
 
 void Chunk::createMesh()
 {
-    std::cout << "Creating New Chunk Mesh" << std::endl;
     m_vertices.erase(m_vertices.begin(), m_vertices.end());
     for(int x = 0 ; x<ChunkSize; ++x)
     {
