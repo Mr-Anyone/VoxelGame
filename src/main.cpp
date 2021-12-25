@@ -28,7 +28,7 @@ int main()
     chunk.createMesh();
 #else // Render Test Chunk
     ChunkManager manager;
-    manager.setRenderDistance(2);
+    manager.setRenderDistance(1);
 #endif
 
     while(!glfwWindowShouldClose(window))
