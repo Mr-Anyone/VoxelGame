@@ -3,9 +3,9 @@
 out vec4 fragColor;
 in vec2 textureCor;
 in float light;
-uniform sampler2D texture1;
+uniform sampler2D texture0; // this will be the texture atlas
 
 void main() 
 {
-    fragColor = light * texture(texture1, textureCor);
+    fragColor = light * texture(texture0, textureCor);
 }

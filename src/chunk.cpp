@@ -92,9 +92,9 @@ static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, 
 void Chunk::makeBlockMesh(int x, int y, int z)
 {
     // This would render the edge of the chunk
+    if( y + 1 >= ChunkSize)
     
     // the top block face
-    if( y + 1 >= ChunkSize)
     {
         pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
     }
