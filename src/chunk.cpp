@@ -69,7 +69,7 @@ Chunk::Chunk(Block***copiedChunk, int xOffset, int zOffset):
     }
 }
 
-static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, std::size_t size, int x, int y, int z, int xOffest, int zOffset)
+static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, std::size_t size, int x, int y, int z, int xOffest, int zOffset, BlockTypes blockType, BlockFaceTexture blockFace)
 {
     auto it = vertices.end();
     std::size_t verticesSize {vertices.size()};
@@ -81,6 +81,11 @@ static void pushBackVertices(std::vector<float>& vertices, float* cubeVertices, 
         vertices[i] = vertices[i] + x + xOffest * ChunkSize;
         vertices[i + 1] = vertices[i + 1] + y;
         vertices[i + 2] = vertices[i + 2] + z + zOffset * ChunkSize ;
+
+        // texture
+        int textureFace = static_cast<int> (vertices[i + 3]);
+        vertices[i + 3] = textureCoordinateLookup[blockType][blockFace][textureFace][0];
+        vertices[i + 4] = textureCoordinateLookup[blockType][blockFace][textureFace][1];
     }
 }
 
@@ -96,21 +101,21 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     
     // the top block face
     {
-        pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::TOP);
     }
     else if(!m_blocks[x][y + 1][z].isActive)
     {
-        pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, topFaceCubeVertices, sizeof(topFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::TOP);
     }
     
     // bottom block face
     if(y - 1 < 0)
     {
-        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BOTTOM);
     }
     else if(!m_blocks[x][y - 1][z].isActive )
     {
-        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BOTTOM);
     }
     
     // right block face
@@ -119,18 +124,18 @@ void Chunk::makeBlockMesh(int x, int y, int z)
         // does the neighbour chunk exists
         if(m_neighbour[ChunkFace::right] == nullptr )
         {
-            pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::RIGHT);
         }
         // does neighbour block in other chunk exist
         else if (!m_neighbour[ChunkFace::right]->m_blocks[0][y][z].isActive)
         {
-            pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::RIGHT);
         }
 
     }
     else if(!m_blocks[x + 1][y][z].isActive)
     {
-        pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, rightFaceCubeVertices, sizeof(rightFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::RIGHT);
     }
     
     // left block face 
@@ -138,50 +143,50 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     {
         if(m_neighbour[ChunkFace::left] == nullptr)
         {
-            pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::LEFT);
         }
         else if(!m_neighbour[ChunkFace::left]->m_blocks[ChunkSize - 1][y][z].isActive)
         {
-            pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::LEFT);
         }
     }
     else if(!m_blocks[x - 1][y][z].isActive )
     {
-        pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, leftFaceCubeVertices, sizeof(leftFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::LEFT);
     }
 
-    // Bottom
+    // Back
     if(z -1 < 0)
     {
         if(m_neighbour[ChunkFace::down] == nullptr)
         {
-            pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BACK);
         }
         else if(!m_neighbour[ChunkFace::down]->m_blocks[x][y][ChunkSize -1].isActive)
         {
-            pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BACK);
         }
     }
     else if(!m_blocks[x][y][z - 1].isActive)
     {
-        pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, backFaceCubeVertices, sizeof(backFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BACK);
     }
 
-    // Top
+    // Front
     if(z + 1 >= ChunkSize)
     {
         if(m_neighbour[ChunkFace::up] == nullptr)
         {
-            pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::FRONT);
         }
         else if(!m_neighbour[ChunkFace::up]->m_blocks[x][y][0].isActive)
         {
-            pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+            pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::FRONT);
         }
     }
     else if(!m_blocks[x][y][z + 1].isActive )
     {
-        pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset);
+        pushBackVertices(m_vertices, frontFaceCubeVertices, sizeof(frontFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::FRONT);
     }
 }
 
@@ -252,7 +257,7 @@ void makeTestChunk(Chunk& chunk, int xOffset, int zOffset)
             for(int z = 0; z<ChunkSize; ++z)
             {
                 blocks[x][y][z].isActive = true; 
-                blocks[x][y][z].type = WHITE;
+                blocks[x][y][z].type = BRICK;
             }
         }
     }
@@ -287,7 +292,6 @@ Chunk& Chunk::operator=(Chunk&& chunk)
 
 bool Chunk::hasNeighbourOnFourSide(int x, int y, int z)
 {
-    // re-write this code. What is this copying code shit! 
 
     for(int yy = -1; yy<2; ++yy)
     {

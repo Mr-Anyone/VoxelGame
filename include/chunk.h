@@ -4,21 +4,10 @@
 #include <vector>
 
 #include "shader.h"
+#include "block.h"
 inline constexpr int ChunkSize  {64};
 inline constexpr int BlockSize  {1};
 
-enum BlockTypes 
-{
-    BLOCKAIR,
-    WHITE,
-    NUMBLOCKTYPE
-};
-
-struct Block 
-{
-    BlockTypes type;
-    bool isActive;
-};
 
 enum ChunkFace
 {

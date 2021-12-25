@@ -59,13 +59,25 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
             int height = makeHeightFromNoise(noise);
             for(int y = 0; y<ChunkSize; ++y)
             {
+
+                if(y < 10)
+                {
+                    blocks[x][y][z].isActive = true;
+                    blocks[x][y][z].type = WATER;
+                    continue;
+                }
+
                 if(y<=height)
                 {
                     blocks[x][y][z].isActive = true;
+                    blocks[x][y][z].type = BRICK;
+                    continue;
                 }
                 else
                 {
                     blocks[x][y][z].isActive = false;
+                    blocks[x][y][z].type = BRICK;
+                    continue;
                 }
             }
         }
