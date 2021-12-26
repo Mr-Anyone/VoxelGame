@@ -38,7 +38,7 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
     perlinModule.SetSeed(seed);
     perlinModule.SetOctaveCount(8);
     perlinModule.SetFrequency(0.007);
-    perlinModule.SetPersistence(0.5);
+    perlinModule.SetPersistence(0.55);
 
     utils::NoiseMap heightMap; // creating two-dimensional height map
     utils::NoiseMapBuilderPlane heightMapBuilder;
@@ -59,18 +59,30 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
             int height = makeHeightFromNoise(noise);
             for(int y = 0; y<ChunkSize; ++y)
             {
-
+                // Fill In Water
                 if(y < 10)
                 {
                     blocks[x][y][z].isActive = true;
                     blocks[x][y][z].type = WATER;
                     continue;
                 }
-
-                if(y<=height)
+                // Set The Height
+                if(y==height)
                 {
                     blocks[x][y][z].isActive = true;
-                    blocks[x][y][z].type = BRICK;
+                    blocks[x][y][z].type = GRASS;
+                    continue;
+                }
+                else if ( height - 4 <= y  && y < height)
+                {
+                    blocks[x][y][z].isActive = true;
+                    blocks[x][y][z].type = DIRT;
+                    continue;
+                }
+                else if(y < height -4)
+                {
+                    blocks[x][y][z].isActive = true;
+                    blocks[x][y][z].type = STONE;
                     continue;
                 }
                 else

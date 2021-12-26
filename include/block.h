@@ -4,6 +4,9 @@
 enum BlockTypes {
     BRICK,
     WATER,
+    STONE,
+    GRASS,
+    DIRT,
     NUMBLOCKTYPE
 };
 
