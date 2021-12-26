@@ -223,6 +223,7 @@ void Chunk::createMesh()
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
+    m_vertices.shrink_to_fit(); // did reserve space
 }
 
 void Chunk::render(Shader& shader) const 

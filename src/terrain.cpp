@@ -33,16 +33,23 @@ static int makeHeightFromNoise(double noise)
 void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
 {
     Block*** blocks {makeBlockMemory()};
-
+    constexpr float powerNum {3.0};
     static noise::module::Perlin perlinModule;
+    static noise::module::Exponent exponentModule;
+
+    // Setting Perlin Noise Module
     perlinModule.SetSeed(seed);
     perlinModule.SetOctaveCount(8);
     perlinModule.SetFrequency(0.007);
     perlinModule.SetPersistence(0.55);
 
+    // Setting Exponent Module
+    exponentModule.SetExponent(powerNum);
+    exponentModule.SetSourceModule(0, perlinModule);
+
     utils::NoiseMap heightMap; // creating two-dimensional height map
     utils::NoiseMapBuilderPlane heightMapBuilder;
-    heightMapBuilder.SetSourceModule(perlinModule);
+    heightMapBuilder.SetSourceModule(exponentModule);
     heightMapBuilder.SetDestNoiseMap(heightMap);
     heightMapBuilder.SetDestSize(ChunkSize, ChunkSize);
 
@@ -73,13 +80,13 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
                     blocks[x][y][z].type = GRASS;
                     continue;
                 }
-                else if ( height - 4 <= y  && y < height)
+                else if ( height - 2 <= y  && y < height)
                 {
                     blocks[x][y][z].isActive = true;
                     blocks[x][y][z].type = DIRT;
                     continue;
                 }
-                else if(y < height -4)
+                else if(y < height - 2)
                 {
                     blocks[x][y][z].isActive = true;
                     blocks[x][y][z].type = STONE;
