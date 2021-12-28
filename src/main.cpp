@@ -41,7 +41,6 @@ int main()
 #else // Not Render Test Chunk
         manager.render(shader, camera_g.getPosition());
 #endif
-
         glfwPollEvents();
         glfwSwapBuffers(window);
     }

@@ -67,7 +67,7 @@ void makeTerrain(ChunkCoordinate coordinate, Chunk& chunk)
             for(int y = 0; y<ChunkSize; ++y)
             {
                 // Fill In Water
-                if(y < 10)
+                if(y < 5)
                 {
                     blocks[x][y][z].isActive = true;
                     blocks[x][y][z].type = WATER;
