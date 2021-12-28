@@ -111,7 +111,7 @@ void Chunk::makeBlockMesh(int x, int y, int z)
     // bottom block face
     if(y - 1 < 0)
     {
-        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BOTTOM);
+//        pushBackVertices(m_vertices, bottomFaceCubeVertices, sizeof(bottomFaceCubeVertices) / sizeof(float), x, y, z, m_xOffset, m_zOffset, m_blocks[x][y][z].type, BlockFaceTexture::BOTTOM);
     }
     else if(!m_blocks[x][y - 1][z].isActive )
     {
