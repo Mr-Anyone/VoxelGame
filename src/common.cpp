@@ -10,9 +10,9 @@ extern Camera camera_g;
 
 void enableFaceCull(GLFWwindow* window)
 {
-    glEnable(GL_CULL_FACE); // Enable Face Culling
-    glFrontFace(GL_CCW); // counter-clockwise
-    glCullFace(GL_BACK); // does not render the back face
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CW);
 }
 
 GLFWwindow* opengl_init()
@@ -45,7 +45,7 @@ GLFWwindow* opengl_init()
     
     // Enable Depth Buffer and face culling
     glEnable(GL_DEPTH_TEST);
-//    enableFaceCull(window);
+    enableFaceCull(window);
     return window;
 }
 
