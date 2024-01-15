@@ -1,18 +1,22 @@
-## Voxel Game From Scratch
+# Voxel Game From Scratch
+![Voxel Game](screenshots/VoxelGame.png)
+
+Hello to whoever is reading this. This is a Voxel Game that is entirely made from GLFW and Open-GL. This is a really low-level graphics programming. 
+
+## Run Guide
+
 Clone Project
 
 `git clone --recurse-submodules https://github.com/Mr-Anyone/VoxelGame.git `
 
-Hello to whoever is reading this. I got board today and decided to make a voxel game pretty much from scratch.
-Here are a list of features I may implement if I have time, because these are the ones that I've no idea how to implement! 
-Features List:
+To Build and compile the program:
 
-- Block Delation
-- Physics 
+```
+mkdir build 
+cd build
+cmake ..
+make -j 
+./VoxelGame
+```
 
-
-## To Do List 
-
-1. Faster Terrain Generation or the use of threading  (The game lags with terrain is trying to generate)
-2. Texture mapping! Currently, there is only one type of block 
-3. Make a height map somehow
+Quicktip for vscode. Set the build target to VoxelGame (not ALL_BUILD) or else it would not work. 
