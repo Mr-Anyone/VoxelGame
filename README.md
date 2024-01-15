@@ -1,7 +1,7 @@
 # Voxel Game From Scratch
 ![Voxel Game](screenshots/VoxelGame.png)
 
-Hello to whoever is reading this. This is a Voxel Game that is entirely made from GLFW and Open-GL. This is a really low-level graphics programming. 
+Hello to whoever is reading this. This is a Voxel Game that is entirely made from GLFW and OpenGL. There are a lot of low-level graphics programming going on. 
 
 ## Run Guide
 
